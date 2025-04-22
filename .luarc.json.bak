@@ -1,0 +1,32 @@
+{
+    "Lua": {
+        "runtime": {
+            "version": "LuaJIT",
+            "path": [
+                "?.lua",
+                "?/init.lua",
+                "src/?.lua",
+                "src/?/init.lua",
+                "libs/?.lua",
+                "libs/?/init.lua",
+                "assets/?.lua"
+            ]
+        },
+        "diagnostics": {
+            "globals": ["love", "switchState"]
+        },
+        "workspace": {
+            "library": [
+                "${3rd}/love2d/library"
+            ],
+            "maxPreload": 2000,
+            "preloadFileSize": 1000
+        },
+        "telemetry": {
+            "enable": false
+        }
+    },
+    "diagnostics.disable": [
+        "lowercase-global"
+    ]
+}
