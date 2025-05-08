@@ -1,3 +1,6 @@
+Utils = require("utils.utils")
+Pawn = require("pieces.pawn")
+
 function love.load()
     love.window.setTitle("Chess Engine")
     love.window.setMode(640, 640)
@@ -25,25 +28,6 @@ function love.load()
     end
 end
 
-function printBoard()
-    print("\n  +------------------------+")
-    for row = 1, 8 do
-        local displayRow = 9 - row -- display 8 at the top and 1 at the bottom
-        io.write(displayRow .. " | ")
-        for col = 1, 8 do
-            local piece = board[row][col]
-            if piece == "" then
-                io.write(" . ")
-            else
-                io.write(piece .. " ")
-            end
-        end
-        print("|")
-    end
-    print("  +------------------------+")
-    print("    a  b  c  d  e  f  g  h")
-end
-
 function isInBounds(row, col)
     return row >= 1 and row <= 8 and col >= 1 and col <= 8
 end
@@ -55,43 +39,6 @@ function isFriendlyPiece(row, col, color)
         return false
     end
     return (color == "white" and piece:sub(1, 1) == "w") or (color == "black" and piece:sub(1, 1) == "b")
-end
-
-function isValidPawnMove(row, col, newRow, newCol, color)
-    -- Make sure destination is in bounds
-    if not isInBounds(newRow, newCol) then return false end
-
-    -- row 1 is at the top of the board internally
-    -- white pawns start at row 7, and black at row 2
-    local direction = color == "white" and -1 or 1
-    local startRow = color == "white" and 7 or 2
-    local target = board[newRow][newCol]
-
-    print(string.format("Checking %s pawn from (%d, %d) to (%d, %d)", color, row, col, newRow, newCol))
-    print("Target square:", target)
-
-    -- Forward move (one square)
-    if col == newCol and newRow == row + direction and target == "" then
-        print("One-step forward valid")
-        return true
-    end
-
-    -- First move (two square)
-     if col == newCol and row == startRow and newRow == row + 2 * direction and target == "" and board[row + direction][col] == "" then
-            print("Two-step forward is valid")
-            return true
-        end
-
-    -- Diagonal capture move
-    if math.abs(col - newCol) == 1 and newRow == row + direction and target ~= "" then
-        if (color == "white" and target:sub(1,1) == "b") or (color == "black" and target:sub(1,1) == "w") then
-            print("Diagonal capture valid")
-            return true
-        end
-    end
-
-    print("Move invalid\n")
-    return false
 end
 
 function drawBoard()
@@ -145,7 +92,7 @@ function love.mousepressed(x, y, button)
             local valid = false
 
             if type == "p" then
-                valid = isValidPawnMove(fromRow, fromCol, row, col, color)
+                valid = Pawn.isValidPawnMove(fromRow, fromCol, row, col, color)
                 -- print(string.format("Trying to move %s pawn from (%d, %d) to (%d, %d)", color, fromRow, fromCol, row, col))
                 -- print("Valid move:", valid)
             else
@@ -156,7 +103,7 @@ function love.mousepressed(x, y, button)
             if valid then
                 board[row][col] = piece
                 board[fromRow][fromCol] = ""
-                printBoard()
+                Utils.printBoard(board)
             end
 
             selected = nil
