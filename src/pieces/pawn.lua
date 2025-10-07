@@ -13,6 +13,7 @@ function Pawn.isValidPawnMove(row, col, newRow, newCol, color)
     local startRow = color == "white" and 7 or 2
     local target = board[newRow][newCol]
 
+    print("\n")
     print(string.format("Checking %s pawn from (%d, %d) to (%d, %d)", color, row, col, newRow, newCol))
     print("Target square:", target)
 
@@ -23,14 +24,14 @@ function Pawn.isValidPawnMove(row, col, newRow, newCol, color)
     end
 
     -- First move (two square)
-     if col == newCol and row == startRow and newRow == row + 2 * direction and target == "" and board[row + direction][col] == "" then
-            print("Two-step forward is valid")
-            return true
-        end
+    if col == newCol and row == startRow and newRow == row + 2 * direction and target == "" and board[row + direction][col] == "" then
+        print("Two-step forward is valid")
+        return true
+    end
 
     -- Diagonal capture move
     if math.abs(col - newCol) == 1 and newRow == row + direction and target ~= "" then
-        if (color == "white" and target:sub(1,1) == "b") or (color == "black" and target:sub(1,1) == "w") then
+        if (color == "white" and target:sub(1, 1) == "b") or (color == "black" and target:sub(1, 1) == "w") then
             print("Diagonal capture valid")
             return true
         end

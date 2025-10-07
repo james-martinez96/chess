@@ -3,7 +3,7 @@ Utils.__index = Utils
 
 --- Print the chess board
 function Utils.printBoard(board)
-    print("\n  +------------------------+")
+    print("  +-------------------------+")
     for row = 1, 8 do
         local displayRow = 9 - row -- display 8 at the top and 1 at the bottom
         io.write(displayRow .. " | ")
@@ -17,7 +17,7 @@ function Utils.printBoard(board)
         end
         print("|")
     end
-    print("  +------------------------+")
+    print("  +-------------------------+")
     print("    a  b  c  d  e  f  g  h")
 end
 

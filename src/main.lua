@@ -10,19 +10,19 @@ function love.load()
     selected = nil
 
     board = {
-        {"br","bn","bb","bq","bk","bb","bn","br"},
-        {"bp","bp","bp","bp","bp","bp","bp","bp"},
-        {"","","","","","","",""},
-        {"","","","","","","",""},
-        {"","","","","","","",""},
-        {"","","","","","","",""},
-        {"wp","wp","wp","wp","wp","wp","wp","wp"},
-        {"wr","wn","wb","wq","wk","wb","wn","wr"}
+        { "br", "bn", "bb", "bq", "bk", "bb", "bn", "br" },
+        { "bp", "bp", "bp", "bp", "bp", "bp", "bp", "bp" },
+        { "",   "",   "",   "",   "",   "",   "",   "" },
+        { "",   "",   "",   "",   "",   "",   "",   "" },
+        { "",   "",   "",   "",   "",   "",   "",   "" },
+        { "",   "",   "",   "",   "",   "",   "",   "" },
+        { "wp", "wp", "wp", "wp", "wp", "wp", "wp", "wp" },
+        { "wr", "wn", "wb", "wq", "wk", "wb", "wn", "wr" }
     }
 
     -- Load piece sprites
     pieces = {}
-    local names = {"bp","br","bn","bb","bq","bk","wp","wr","wn","wb","wq","wk"}
+    local names = { "bp", "br", "bn", "bb", "bq", "bk", "wp", "wr", "wn", "wb", "wq", "wk" }
     for _, name in ipairs(names) do
         pieces[name] = love.graphics.newImage("assets/" .. name .. ".png")
     end
@@ -52,12 +52,12 @@ function drawBoard()
             else
                 love.graphics.setColor(0.2, 0.2, 0.2)
             end
-            love.graphics.rectangle("fill", (col-1)*tileSize, (row-1)*tileSize, tileSize, tileSize)
+            love.graphics.rectangle("fill", (col - 1) * tileSize, (row - 1) * tileSize, tileSize, tileSize)
 
             -- selected piece color
             if selected and selected[1] == row and selected[2] == col then
-                love.graphics.setColor(1,0,0,0.5) -- red highlight
-                love.graphics.rectangle("fill", (col-1)*tileSize, (row-1)*tileSize, tileSize, tileSize)
+                love.graphics.setColor(1, 0, 0, 0.5) -- red highlight
+                love.graphics.rectangle("fill", (col - 1) * tileSize, (row - 1) * tileSize, tileSize, tileSize)
             end
         end
     end
@@ -70,7 +70,7 @@ function drawPieces()
             if piece ~= "" and pieces[piece] then
                 local x = (col - 1) * tileSize
                 local y = (row - 1) * tileSize
-                love.graphics.setColor(1,1,1)
+                love.graphics.setColor(1, 1, 1)
                 love.graphics.draw(pieces[piece], x, y, 0, tileSize / pieces[piece]:getWidth())
             end
         end
@@ -87,7 +87,7 @@ function love.mousepressed(x, y, button)
             local piece = board[fromRow][fromCol]
             local color = piece:sub(1, 1) == "w" and "white" or "black"
             local type = piece:sub(2, 2)
-            print(piece, color, type)
+            -- print(piece, color, type)
 
             local valid = false
 
@@ -110,7 +110,7 @@ function love.mousepressed(x, y, button)
         else
             -- Select piece
             if board[row][col] ~= "" then
-                selected = {row, col}
+                selected = { row, col }
             end
         end
     end

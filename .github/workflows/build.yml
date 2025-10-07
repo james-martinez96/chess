@@ -1,0 +1,24 @@
+name: Build and Release Love2D Game
+
+on:
+  push:
+    tags:
+      - 'v*' # Runs on version tags
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Run build script
+        run: ./build.sh
+
+      - name: Upload built .love file
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/*.love
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
